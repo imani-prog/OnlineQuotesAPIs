@@ -3,7 +3,7 @@ spring.application.name=Quotes
 # MySQL Database Configuration
 spring.datasource.url=jdbc:mysql://localhost:3306/OnlineQuotes
 spring.datasource.username=root
-spring.datasource.password=Timo9380.
+spring.datasource.password=YOUR_MYSQL_PASSWORD_HERE
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 # JPA/Hibernate Configuration

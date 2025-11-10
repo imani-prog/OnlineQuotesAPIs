@@ -31,3 +31,43 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Application Specific ###
+# Sensitive configuration files with passwords
+# IMPORTANT: Never commit actual passwords!
+# Use application.properties.template as reference
+src/main/resources/application.properties
+
+# Other sensitive files
+*.secret
+credentials.properties
+
+# Environment variables
+.env
+.env.local
+
+# Database files (if using H2 for testing)
+*.db
+*.mv.db
+*.trace.db
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Temporary helper files (created during setup/troubleshooting)
+ADD_SSH_KEY.txt
+setup-github-push.sh
+test-and-push.sh
+
+# OS specific
+.DS_Store
+Thumbs.db
+*~
+
+# Backup files
+*.bak
+*.swp
+*.swo
+
