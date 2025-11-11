@@ -95,6 +95,24 @@ public class QuoteController {
     }
 
     /**
+     * POST /api/quotes/save
+     * Alternative endpoint to save a quote (for frontend compatibility).
+     * @param quote The quote to save (from request body)
+     * @return ResponseEntity containing the saved quote
+     */
+    @PostMapping("/save")
+    public ResponseEntity<Map<String, Object>> saveQuoteAlt(@RequestBody Quote quote) {
+        logger.info("Received request to save quote via /save endpoint: {}", quote);
+        Quote savedQuote = quoteService.saveQuote(quote);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Quote saved successfully");
+        response.put("quote", savedQuote);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
      * POST /api/quotes/random/save
      * Fetches a random quote from API and saves it to the database.
      * @return ResponseEntity containing the saved quote
@@ -103,10 +121,7 @@ public class QuoteController {
     public ResponseEntity<Map<String, Object>> fetchAndSaveRandomQuote() {
         logger.info("Received request to fetch and save random quote");
 
-        // Fetch quote from API
         Quote randomQuote = quoteService.getRandomQuoteFromAPI();
-
-        // Save it to database
         Quote savedQuote = quoteService.saveQuote(randomQuote);
 
         Map<String, Object> response = new HashMap<>();

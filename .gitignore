@@ -49,6 +49,39 @@ credentials.properties
 # Database files (if using H2 for testing)
 *.db
 *.mv.db
+
+# Docker volumes and caches
+.docker/
+docker-compose.override.yml
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.jar
+!**/mvnw.jar
+*.war
+*.ear
+*.class
+
+# IDE metadata
+.history/
+.metadata/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
 *.trace.db
 
 # Logs
