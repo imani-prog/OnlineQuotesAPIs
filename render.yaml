@@ -1,0 +1,63 @@
+services:
+  - type: web
+    name: quotes-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: render
+      - key: PORT
+        value: 8080
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+# Configuration Notes:
+# ====================
+# 
+# This file configures your Render deployment for the Quote Generator API.
+#
+# Database Setup:
+# ---------------
+# You need to manually set these environment variables in Render dashboard:
+#
+# 1. DATABASE_URL
+#    Format: jdbc:mysql://[host]:3306/[database-name]?sslMode=VERIFY_IDENTITY
+#    Example: jdbc:mysql://mysql.railway.internal:3306/quotes?sslMode=VERIFY_IDENTITY
+#
+# 2. DATABASE_USERNAME
+#    Your database username
+#
+# 3. DATABASE_PASSWORD
+#    Your database password
+#
+# Database Options:
+# -----------------
+# - PlanetScale (https://planetscale.com) - Free tier, managed MySQL
+# - Railway (https://railway.app) - Free tier with MySQL
+# - Aiven (https://aiven.io) - Free tier available
+#
+# Deployment Steps:
+# -----------------
+# 1. Push this file to your GitHub repository
+# 2. Connect your repository to Render
+# 3. Render will automatically detect this render.yaml
+# 4. Set the database environment variables in Render dashboard
+# 5. Deploy!
+#
+# Health Check:
+# -------------
+# Render will check /actuator/health endpoint every 30 seconds
+# Make sure your Spring Boot Actuator is properly configured
+#
+# Free Plan Limitations:
+# ----------------------
+# - Service sleeps after 15 minutes of inactivity
+# - First request after sleep may take 30-60 seconds
+# - 750 hours/month of uptime
+# - Perfect for development and demo projects

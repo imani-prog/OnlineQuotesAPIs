@@ -28,8 +28,10 @@ public class CorsConfig {
         corsConfig.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
                 "http://localhost:5174",
-                // Local React (Vite) frontend
-                "https://your-frontend-domain.com"  // Deployed production frontend
+                "http://localhost:3000",
+                "https://inspireme-frontend.vercel.app",
+                "https://inspireme-frontend.onrender.com",
+                "https://inspiremefrontend.vercel.app"
         ));
 
         corsConfig.setAllowedHeaders(Arrays.asList(
