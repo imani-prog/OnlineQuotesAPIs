@@ -353,6 +353,15 @@ Add to your README.md:
 - Verify application.properties for tests
 - Review test logs in workflow run
 
+### Security scanning permission errors?
+**Error:** "Resource not accessible by integration"
+**Fix:** All workflows now have correct permissions set. If you still see this:
+1. Go to Settings → Actions → General
+2. Under "Workflow permissions", select:
+   - ✅ Read and write permissions
+   - ✅ Allow GitHub Actions to create and approve pull requests
+3. Click "Save"
+
 ### Deployment not triggered?
 - Verify `RENDER_DEPLOY_HOOK_URL` secret is set
 - Check Render service is active
