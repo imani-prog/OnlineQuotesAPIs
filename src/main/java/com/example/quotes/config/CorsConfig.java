@@ -29,9 +29,8 @@ public class CorsConfig {
                 "http://localhost:5173",
                 "http://localhost:5174",
                 "http://localhost:3000",
-                "https://inspireme-frontend.vercel.app",
-                "https://inspireme-frontend.onrender.com",
-                "https://inspiremefrontend.vercel.app"
+                "https://inspiremefrontend.vercel.app",
+                "https://inspire-me-one.vercel.app"
         ));
 
         corsConfig.setAllowedHeaders(Arrays.asList(
@@ -40,7 +39,14 @@ public class CorsConfig {
                 "Content-Type",
                 "Accept",
                 "Authorization",
-                "X-Requested-With"
+                "X-Requested-With",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers"
+        ));
+
+        corsConfig.setExposedHeaders(Arrays.asList(
+                "Authorization",
+                "Content-Type"
         ));
 
         corsConfig.setAllowedMethods(Arrays.asList(
@@ -57,4 +63,3 @@ public class CorsConfig {
         return new CorsFilter(source);
     }
 }
-
