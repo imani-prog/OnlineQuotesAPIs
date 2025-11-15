@@ -8,10 +8,10 @@
 -- \c OnlineQuotes;
 
 -- Drop table if exists (for clean setup)
-DROP TABLE IF EXISTS quote CASCADE;
+DROP TABLE IF EXISTS quotes CASCADE;
 
--- Create quote table
-CREATE TABLE IF NOT EXISTS quote (
+-- Create quotes table
+CREATE TABLE IF NOT EXISTS quotes (
     id BIGSERIAL PRIMARY KEY,
     text VARCHAR(1000) NOT NULL,
     author VARCHAR(255) NOT NULL,
@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS quote (
 );
 
 -- Create index on author for faster searches
-CREATE INDEX IF NOT EXISTS idx_quote_author ON quote(author);
+CREATE INDEX IF NOT EXISTS idx_quotes_author ON quotes(author);
 
 -- Insert sample quotes
-INSERT INTO quote (text, author) VALUES
+INSERT INTO quotes (text, author) VALUES
 ('The only way to do great work is to love what you do.', 'Steve Jobs'),
 ('Innovation distinguishes between a leader and a follower.', 'Steve Jobs'),
 ('Stay hungry, stay foolish.', 'Steve Jobs'),
@@ -45,9 +45,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Create trigger to automatically update updated_at
-DROP TRIGGER IF EXISTS update_quote_updated_at ON quote;
-CREATE TRIGGER update_quote_updated_at
-    BEFORE UPDATE ON quote
+DROP TRIGGER IF EXISTS update_quotes_updated_at ON quotes;
+CREATE TRIGGER update_quotes_updated_at
+    BEFORE UPDATE ON quotes
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
