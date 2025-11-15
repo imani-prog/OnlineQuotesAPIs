@@ -1,4 +1,18 @@
 services:
+  # PostgreSQL Database
+  - type: pserv
+    name: quotes-postgres
+    runtime: docker
+    plan: free
+    region: oregon
+    env: docker
+    dockerfilePath: ./Dockerfile.postgres
+    disk:
+      name: quotes-postgres-data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 1
+
+  # Spring Boot Backend
   - type: web
     name: quotes-backend
     runtime: docker
@@ -7,48 +21,50 @@ services:
     branch: main
     healthCheckPath: /actuator/health
     envVars:
-      - key: SPRING_PROFILES_ACTIVE
-        value: render
+      - key: DATABASE_URL
+        fromDatabase:
+          name: quotes-postgres
+          property: connectionString
+      - key: DB_USERNAME
+        value: quoteuser
+      - key: DB_PASSWORD
+        generateValue: true
+      - key: DDL_AUTO
+        value: update
+      - key: SHOW_SQL
+        value: false
       - key: PORT
         value: 8080
-      - key: DATABASE_URL
-        sync: false
-      - key: DATABASE_USERNAME
-        sync: false
-      - key: DATABASE_PASSWORD
-        sync: false
-# Configuration Notes:
-# ====================
-# 
-# This file configures your Render deployment for the Quote Generator API.
+      - key: DB_POOL_SIZE
+        value: 10
+      - key: DB_MIN_IDLE
+        value: 5
+
+# Alternative: Use Render's Managed PostgreSQL
+# ==============================================
+# If you prefer Render's managed PostgreSQL instead of Docker:
 #
-# Database Setup:
-# ---------------
-# You need to manually set these environment variables in Render dashboard:
+# databases:
+#   - name: quotes-postgres
+#     databaseName: OnlineQuotes
+#     user: quoteuser
+#     plan: free
+#     region: oregon
 #
-# 1. DATABASE_URL
-#    Format: jdbc:mysql://[host]:3306/[database-name]?sslMode=VERIFY_IDENTITY
-#    Example: jdbc:mysql://mysql.railway.internal:3306/quotes?sslMode=VERIFY_IDENTITY
-#
-# 2. DATABASE_USERNAME
-#    Your database username
-#
-# 3. DATABASE_PASSWORD
-#    Your database password
-#
-# Database Options:
-# -----------------
-# - PlanetScale (https://planetscale.com) - Free tier, managed MySQL
-# - Railway (https://railway.app) - Free tier with MySQL
-# - Aiven (https://aiven.io) - Free tier available
-#
-# Deployment Steps:
-# -----------------
-# 1. Push this file to your GitHub repository
-# 2. Connect your repository to Render
-# 3. Render will automatically detect this render.yaml
-# 4. Set the database environment variables in Render dashboard
-# 5. Deploy!
+# Then update the web service to use:
+#   envVars:
+#     - key: DATABASE_URL
+#       fromDatabase:
+#         name: quotes-postgres
+#         property: connectionString
+#     - key: DB_USERNAME
+#       fromDatabase:
+#         name: quotes-postgres
+#         property: user
+#     - key: DB_PASSWORD
+#       fromDatabase:
+#         name: quotes-postgres
+#         property: password
 #
 # Health Check:
 # -------------

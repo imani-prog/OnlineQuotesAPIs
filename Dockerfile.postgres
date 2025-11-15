@@ -1,0 +1,17 @@
+# PostgreSQL Dockerfile for Render deployment
+FROM postgres:16-alpine
+
+# Set environment variables
+ENV POSTGRES_DB=OnlineQuotes
+ENV POSTGRES_USER=quoteuser
+ENV POSTGRES_PASSWORD=quotepass123
+
+# Copy initialization script
+COPY database-setup.sql /docker-entrypoint-initdb.d/
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# Use default postgres entrypoint
+CMD ["postgres"]
+
