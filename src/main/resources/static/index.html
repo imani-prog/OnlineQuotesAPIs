@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .status {
+            text-align: center;
+            color: #28a745;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        .get { background: #28a745; color: white; }
+        .post { background: #007bff; color: white; }
+        .delete { background: #dc3545; color: white; }
+        .path {
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-weight: bold;
+        }
+        .description {
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Quotes API</h1>
+        <div class="status">✓ API is running</div>
+
+        <h2>Available Endpoints</h2>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <span class="path">/api/quotes</span>
+            <div class="description">Get all quotes from the database</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <span class="path">/api/quotes/random</span>
+            <div class="description">Get a random quote from external API</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <span class="path">/api/quotes/{id}</span>
+            <div class="description">Get a specific quote by ID</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <span class="path">/api/quotes</span>
+            <div class="description">Save a new quote to the database</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <span class="path">/api/quotes/random/save</span>
+            <div class="description">Fetch a random quote from API and save it to database</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method delete">DELETE</span>
+            <span class="path">/api/quotes/{id}</span>
+            <div class="description">Delete a quote by ID</div>
+        </div>
+
+        <div class="footer">
+            <p>Quotes REST API | Built with Spring Boot</p>
+        </div>
+    </div>
+</body>
+</html>
+
