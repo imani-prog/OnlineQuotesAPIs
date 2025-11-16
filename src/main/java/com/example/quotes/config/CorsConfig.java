@@ -8,15 +8,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-/**
- * 🔐 Global CORS Configuration
- * ------------------------------------------------------------
- * This configuration allows frontend clients (like React + Vite)
- * to access your Spring Boot API endpoints without placing
- * CrossOrigin annotations on individual controllers.
- *
- * ✅ Works for both local development and production.
- */
+
 @Configuration
 public class CorsConfig {
 

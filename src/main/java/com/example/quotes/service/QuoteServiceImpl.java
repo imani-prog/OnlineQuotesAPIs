@@ -14,10 +14,7 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Service implementation for Quote operations.
- * Handles business logic for fetching quotes from external API and managing local database.
- */
+
 @Service
 public class QuoteServiceImpl implements QuoteService {
 
@@ -27,39 +24,24 @@ public class QuoteServiceImpl implements QuoteService {
     private final QuoteRepository quoteRepository;
     private final RestTemplate restTemplate;
 
-    /**
-     * Constructor injection for dependencies.
-     * @param quoteRepository Repository for database operations
-     */
     @Autowired
     public QuoteServiceImpl(QuoteRepository quoteRepository) {
         this.quoteRepository = quoteRepository;
         this.restTemplate = new RestTemplate();
     }
 
-    /**
-     * Retrieves all quotes from the local database.
-     * @return List of all quotes
-     */
     @Override
     public List<Quote> getAllQuotes() {
         logger.info("Fetching all quotes from database");
         return quoteRepository.findAll();
     }
 
-    /**
-     * Fetches a random quote from the ZenQuotes.io API.
-     * Parses the JSON response and creates a Quote object.
-     * @return A random quote from the external API
-     * @throws ExternalApiException if the API call fails
-     */
     @Override
     public Quote getRandomQuoteFromAPI() {
         logger.info("Fetching random quote from ZenQuotes API");
 
         try {
-            // Fetch data from ZenQuotes API
-            // API returns an array with one object: [{"q":"quote text","a":"author","h":"html"}]
+
             Map<String, Object>[] response = restTemplate.getForObject(ZENQUOTES_API_URL, Map[].class);
 
             if (response != null && response.length > 0) {
@@ -82,11 +64,6 @@ public class QuoteServiceImpl implements QuoteService {
         }
     }
 
-    /**
-     * Saves a quote to the local database.
-     * @param quote The quote to save
-     * @return The saved quote with generated ID
-     */
     @Override
     public Quote saveQuote(Quote quote) {
         logger.info("Saving quote to database: {}", quote);
@@ -101,11 +78,6 @@ public class QuoteServiceImpl implements QuoteService {
         return quoteRepository.save(quote);
     }
 
-    /**
-     * Deletes a quote by its ID.
-     * @param id The ID of the quote to delete
-     * @throws QuoteNotFoundException if quote with given ID doesn't exist
-     */
     @Override
     public void deleteQuote(Long id) {
         logger.info("Deleting quote with ID: {}", id);
@@ -119,12 +91,7 @@ public class QuoteServiceImpl implements QuoteService {
         logger.info("Successfully deleted quote with ID: {}", id);
     }
 
-    /**
-     * Retrieves a quote by its ID.
-     * @param id The ID of the quote
-     * @return The quote if found
-     * @throws QuoteNotFoundException if quote with given ID doesn't exist
-     */
+
     @Override
     public Quote getQuoteById(Long id) {
         logger.info("Fetching quote with ID: {}", id);

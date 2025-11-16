@@ -13,10 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * REST Controller for Quote operations.
- * Exposes endpoints for fetching quotes from API and managing local quotes.
- */
 @RestController
 @RequestMapping("/api/quotes")
 @CrossOrigin(origins = "*")
@@ -26,20 +22,11 @@ public class QuoteController {
 
     private final QuoteService quoteService;
 
-    /**
-     * Constructor injection for QuoteService.
-     * @param quoteService Service layer for quote operations
-     */
     @Autowired
     public QuoteController(QuoteService quoteService) {
         this.quoteService = quoteService;
     }
 
-    /**
-     * GET /api/quotes/random
-     * Fetches a random quote from the ZenQuotes.io API.
-     * @return ResponseEntity containing the random quote
-     */
     @GetMapping("/random")
     public ResponseEntity<Quote> getRandomQuote() {
         logger.info("Received request for random quote from API");
@@ -47,11 +34,6 @@ public class QuoteController {
         return ResponseEntity.ok(quote);
     }
 
-    /**
-     * GET /api/quotes
-     * Retrieves all quotes from the local database.
-     * @return ResponseEntity containing list of all quotes
-     */
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllQuotes() {
         logger.info("Received request to get all quotes");
@@ -68,12 +50,6 @@ public class QuoteController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * GET /api/quotes/{id}
-     * Retrieves a specific quote by ID.
-     * @param id The ID of the quote to retrieve
-     * @return ResponseEntity containing the quote
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Quote> getQuoteById(@PathVariable Long id) {
         logger.info("Received request to get quote with ID: {}", id);
@@ -81,12 +57,6 @@ public class QuoteController {
         return ResponseEntity.ok(quote);
     }
 
-    /**
-     * POST /api/quotes
-     * Saves a new quote to the local database.
-     * @param quote The quote to save (from request body)
-     * @return ResponseEntity containing the saved quote
-     */
     @PostMapping
     public ResponseEntity<Quote> saveQuote(@RequestBody Quote quote) {
         logger.info("Received request to save quote: {}", quote);
@@ -94,12 +64,6 @@ public class QuoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedQuote);
     }
 
-    /**
-     * POST /api/quotes/save
-     * Alternative endpoint to save a quote (for frontend compatibility).
-     * @param quote The quote to save (from request body)
-     * @return ResponseEntity containing the saved quote
-     */
     @PostMapping("/save")
     public ResponseEntity<Map<String, Object>> saveQuoteAlt(@RequestBody Quote quote) {
         logger.info("Received request to save quote via /save endpoint: {}", quote);
@@ -112,11 +76,6 @@ public class QuoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    /**
-     * POST /api/quotes/random/save
-     * Fetches a random quote from API and saves it to the database.
-     * @return ResponseEntity containing the saved quote
-     */
     @PostMapping("/random/save")
     public ResponseEntity<Map<String, Object>> fetchAndSaveRandomQuote() {
         logger.info("Received request to fetch and save random quote");
@@ -131,12 +90,6 @@ public class QuoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    /**
-     * DELETE /api/quotes/{id}
-     * Deletes a quote by its ID.
-     * @param id The ID of the quote to delete
-     * @return ResponseEntity with success message
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteQuote(@PathVariable Long id) {
         logger.info("Received request to delete quote with ID: {}", id);

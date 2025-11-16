@@ -10,17 +10,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Global exception handler for the application.
- * Handles exceptions thrown by controllers and services.
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /**
-     * Handles QuoteNotFoundException.
-     * Returns 404 NOT FOUND status.
-     */
     @ExceptionHandler(QuoteNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleQuoteNotFoundException(
             QuoteNotFoundException ex, WebRequest request) {
@@ -35,10 +27,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * Handles ExternalApiException.
-     * Returns 503 SERVICE UNAVAILABLE status.
-     */
     @ExceptionHandler(ExternalApiException.class)
     public ResponseEntity<Map<String, Object>> handleExternalApiException(
             ExternalApiException ex, WebRequest request) {
@@ -53,10 +41,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    /**
-     * Handles IllegalArgumentException.
-     * Returns 400 BAD REQUEST status.
-     */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(
             IllegalArgumentException ex, WebRequest request) {
@@ -71,10 +55,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    /**
-     * Handles all other exceptions.
-     * Returns 500 INTERNAL SERVER ERROR status.
-     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGlobalException(
             Exception ex, WebRequest request) {
