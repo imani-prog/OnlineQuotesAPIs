@@ -16,5 +16,6 @@ public interface QuoteService {
     void deleteQuote(Long id);
 
     Quote getQuoteById(Long id);
+
 }
 
