@@ -90,6 +90,7 @@ public class QuoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteQuote(@PathVariable Long id) {
         logger.info("Received request to delete quote with ID: {}", id);
