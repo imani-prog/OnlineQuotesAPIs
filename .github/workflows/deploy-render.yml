@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://quotes-backend.onrender.com
+      url: https://inspiremebackend.onrender.com
 
     steps:
       - name: Checkout code
@@ -25,7 +25,7 @@ jobs:
             curl -X POST "$RENDER_DEPLOY_HOOK_URL"
             echo "✅ Deployment triggered on Render"
           else
-            echo "⚠️ RENDER_DEPLOY_HOOK_URL not set. Skipping deployment."
+            echo " RENDER_DEPLOY_HOOK_URL not set. Skipping deployment."
             echo "To enable auto-deployment:"
             echo "1. Go to your Render service settings"
             echo "2. Copy the Deploy Hook URL"
@@ -39,7 +39,7 @@ jobs:
 
       - name: Health check
         run: |
-          BACKEND_URL="${{ secrets.BACKEND_URL || 'https://quotes-backend.onrender.com' }}"
+          BACKEND_URL="${{ secrets.BACKEND_URL || 'https://inspiremebackend.onrender.com' }}"
           echo "🔍 Checking health endpoint: $BACKEND_URL/actuator/health"
           
           for i in {1..10}; do
@@ -56,7 +56,7 @@ jobs:
 
       - name: Test API endpoints
         run: |
-          BACKEND_URL="${{ secrets.BACKEND_URL || 'https://quotes-backend.onrender.com' }}"
+          BACKEND_URL="${{ secrets.BACKEND_URL || 'https://inspiremebackend.onrender.com' }}"
           
           echo "🧪 Testing API endpoints..."
           
@@ -74,7 +74,7 @@ jobs:
         if: success()
         run: |
           echo "🎉 Deployment to Render completed successfully!"
-          echo "Backend URL: ${{ secrets.BACKEND_URL || 'https://quotes-backend.onrender.com' }}"
+          echo "Backend URL: ${{ secrets.BACKEND_URL || 'https://inspiremebackend.onrender.com' }}"
 
       - name: Notify failure
         if: failure()
