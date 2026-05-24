@@ -11,6 +11,7 @@ A RESTful API application built with Spring Boot 3 and Java 17 that fetches rand
 - Comprehensive error handling
 - CORS enabled for frontend integration
 - RESTful API design with proper HTTP status codes
+- Generate quote explanations with Groq AI (on-demand)
 
 ## Technologies Used
 
@@ -211,6 +212,30 @@ DELETE http://localhost:8080/api/quotes/{id}
 
 ---
 
+### 7. Explain a Quote (Groq AI)
+Generates a short explanation for a quote.
+
+```
+POST http://localhost:8080/api/quotes/explain
+Content-Type: application/json
+
+{
+  "text": "Be yourself; everyone else is already taken.",
+  "author": "Oscar Wilde"
+}
+```
+
+**Response:**
+```json
+{
+  "text": "Be yourself; everyone else is already taken.",
+  "author": "Oscar Wilde",
+  "explanation": "This quote encourages authenticity. It suggests that you should embrace who you are instead of trying to imitate others, because everyone else is already doing that role."
+}
+```
+
+---
+
 ## Error Handling
 
 The API includes comprehensive error handling:
@@ -299,6 +324,10 @@ spring.jpa.show-sql=true
 
 # Server
 server.port=8080
+
+# Groq AI
+# groq.api.key is loaded from GROQ_API_KEY by default
+# groq.api.model and groq.api.url are optional overrides
 ```
 
 ### Switching to Remote MySQL
@@ -334,6 +363,12 @@ spring.datasource.password=your_password
 - The API is free and doesn't require authentication
 - If the API is down, you can still use the local database features
 
+### Groq API Issues
+
+- Ensure `GROQ_API_KEY` is set in your environment or `.env`
+- Confirm your key is active and has quota
+- Check logs for `ExternalApiException` messages
+
 ## Future Enhancements
 
 - Add pagination for GET all quotes
@@ -357,4 +392,85 @@ For questions or issues, please create an issue in the repository.
 ---
 
 **Enjoy generating and managing quotes!** 📝✨
+
+
+````
+This is the description of what the code block changes:
+<changeDescription>
+Document the Groq explanation endpoint and safe API key configuration.
+</changeDescription>
+
+This is the code block that represents the suggested code change:
+````markdown
+## Features
+// ...existing code...
+- Generate quote explanations with Groq AI (on-demand)
+// ...existing code...
+## Installation & Running
+// ...existing code...
+### Environment Variables
+
+Set your Groq API key before running the app (do not commit real keys):
+
+```bash
+export GROQ_API_KEY="your_key_here"
+```
+
+Optional overrides:
+
+```bash
+export GROQ_API_MODEL="llama-3.1-8b-instant"
+export GROQ_API_URL="https://api.groq.com/openai/v1/chat/completions"
+```
+
+For Docker Compose, you can create a `.env` file based on `.env.example`.
+// ...existing code...
+## API Endpoints
+// ...existing code...
+### 7. Explain a Quote (Groq AI)
+Generates a short explanation for a quote.
+
+```
+POST http://localhost:8080/api/quotes/explain
+Content-Type: application/json
+
+{
+  "text": "Be yourself; everyone else is already taken.",
+  "author": "Oscar Wilde"
+}
+```
+
+**Response:**
+```json
+{
+  "text": "Be yourself; everyone else is already taken.",
+  "author": "Oscar Wilde",
+  "explanation": "This quote encourages authenticity. It suggests that you should embrace who you are instead of trying to imitate others, because everyone else is already doing that role."
+}
+```
+
+---
+// ...existing code...
+## Configuration
+// ...existing code...
+### Application Properties
+// ...existing code...
+```properties
+# Groq AI
+# groq.api.key is loaded from GROQ_API_KEY by default
+# groq.api.model and groq.api.url are optional overrides
+```
+// ...existing code...
+## Troubleshooting
+// ...existing code...
+### Groq API Issues
+
+- Ensure `GROQ_API_KEY` is set in your environment or `.env`
+- Confirm your key is active and has quota
+- Check logs for `ExternalApiException` messages
+
+````
+<userPrompt>
+Provide the fully rewritten file, incorporating the suggested code change. You must produce the complete file.
+</userPrompt>
 

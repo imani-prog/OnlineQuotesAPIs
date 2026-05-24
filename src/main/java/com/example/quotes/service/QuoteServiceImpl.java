@@ -4,6 +4,7 @@ import com.example.quotes.entities.Quote;
 import com.example.quotes.exception.QuoteNotFoundException;
 import com.example.quotes.exception.ExternalApiException;
 import com.example.quotes.repository.QuoteRepository;
+import com.example.quotes.service.ai.GroqAiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class QuoteServiceImpl implements QuoteService {
 
     private final QuoteRepository quoteRepository;
     private final RestTemplate restTemplate;
+    private final GroqAiClient groqAiClient;
 
     @Autowired
-    public QuoteServiceImpl(QuoteRepository quoteRepository) {
+    public QuoteServiceImpl(QuoteRepository quoteRepository, RestTemplate restTemplate, GroqAiClient groqAiClient) {
         this.quoteRepository = quoteRepository;
-        this.restTemplate = new RestTemplate();
+        this.restTemplate = restTemplate;
+        this.groqAiClient = groqAiClient;
     }
 
     @Override
@@ -98,5 +101,17 @@ public class QuoteServiceImpl implements QuoteService {
         return quoteRepository.findById(id)
                 .orElseThrow(() -> new QuoteNotFoundException("Quote not found with ID: " + id));
     }
-}
 
+    @Override
+    public String explainQuote(Quote quote) {
+        if (quote == null) {
+            throw new IllegalArgumentException("Quote cannot be null");
+        }
+        if (quote.getText() == null || quote.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Quote text cannot be empty");
+        }
+
+        logger.info("Generating explanation for quote: {}", quote.getText());
+        return groqAiClient.generateExplanation(quote);
+    }
+}

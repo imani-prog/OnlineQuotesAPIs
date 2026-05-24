@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.quotes.dto.QuoteExplanationRequest;
+import com.example.quotes.dto.QuoteExplanationResponse;
+
 @RestController
 @RequestMapping("/api/quotes")
 @CrossOrigin(origins = "*")
@@ -90,6 +93,25 @@ public class QuoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PostMapping("/explain")
+    public ResponseEntity<QuoteExplanationResponse> explainQuote(@RequestBody QuoteExplanationRequest request) {
+        logger.info("Received request to explain a quote");
+
+        if (request == null || request.getText() == null || request.getText().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Quote quote = new Quote(request.getText(), request.getAuthor());
+        String explanation = quoteService.explainQuote(quote);
+
+        QuoteExplanationResponse response = new QuoteExplanationResponse(
+                quote.getText(),
+                quote.getAuthor(),
+                explanation
+        );
+
+        return ResponseEntity.ok(response);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteQuote(@PathVariable Long id) {
@@ -103,4 +125,3 @@ public class QuoteController {
         return ResponseEntity.ok(response);
     }
 }
-

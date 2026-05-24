@@ -44,7 +44,6 @@ credentials.properties
 
 # Environment variables
 .env
-.env.local
 
 # Database files (if using H2 for testing)
 *.db
@@ -103,4 +102,3 @@ Thumbs.db
 *.bak
 *.swp
 *.swo
-

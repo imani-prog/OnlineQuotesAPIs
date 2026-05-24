@@ -39,4 +39,5 @@ services:
         value: 10
       - key: DB_MIN_IDLE
         value: 5
-
+      - key: GROQ_API_KEY
+        value: set-in-render-dashboard

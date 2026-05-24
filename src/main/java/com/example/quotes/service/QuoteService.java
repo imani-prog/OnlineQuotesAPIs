@@ -17,5 +17,7 @@ public interface QuoteService {
 
     Quote getQuoteById(Long id);
 
-}
+    String explainQuote(Quote quote);
 
+
+}
