@@ -1,5 +1,6 @@
 package com.example.quotes.service;
 
+import com.example.quotes.dto.ChatMessage;
 import com.example.quotes.entities.Quote;
 import com.example.quotes.exception.QuoteNotFoundException;
 import com.example.quotes.exception.ExternalApiException;
@@ -113,5 +114,21 @@ public class QuoteServiceImpl implements QuoteService {
 
         logger.info("Generating explanation for quote: {}", quote.getText());
         return groqAiClient.generateExplanation(quote);
+    }
+
+    @Override
+    public String chatAboutQuote(Quote quote, String question, List<ChatMessage> history) {
+        if (quote == null) {
+            throw new IllegalArgumentException("Quote cannot be null");
+        }
+        if (quote.getText() == null || quote.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Quote text cannot be empty");
+        }
+        if (question == null || question.trim().isEmpty()) {
+            throw new IllegalArgumentException("Question cannot be empty");
+        }
+
+        logger.info("Generating chat response for quote: {}", quote.getText());
+        return groqAiClient.generateChatResponse(quote, question, history);
     }
 }

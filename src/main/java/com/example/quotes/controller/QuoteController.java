@@ -15,6 +15,8 @@ import java.util.Map;
 
 import com.example.quotes.dto.QuoteExplanationRequest;
 import com.example.quotes.dto.QuoteExplanationResponse;
+import com.example.quotes.dto.QuoteChatRequest;
+import com.example.quotes.dto.QuoteChatResponse;
 
 @RestController
 @RequestMapping("/api/quotes")
@@ -108,6 +110,30 @@ public class QuoteController {
                 quote.getText(),
                 quote.getAuthor(),
                 explanation
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/chat")
+    public ResponseEntity<QuoteChatResponse> chatAboutQuote(@RequestBody QuoteChatRequest request) {
+        logger.info("Received request to chat about a quote");
+
+        if (request == null || request.getText() == null || request.getText().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (request.getQuestion() == null || request.getQuestion().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Quote quote = new Quote(request.getText(), request.getAuthor());
+        String answer = quoteService.chatAboutQuote(quote, request.getQuestion(), request.getHistory());
+
+        QuoteChatResponse response = new QuoteChatResponse(
+                quote.getText(),
+                quote.getAuthor(),
+                request.getQuestion(),
+                answer
         );
 
         return ResponseEntity.ok(response);

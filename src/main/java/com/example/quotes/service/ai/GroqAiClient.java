@@ -1,5 +1,6 @@
 package com.example.quotes.service.ai;
 
+import com.example.quotes.dto.ChatMessage;
 import com.example.quotes.entities.Quote;
 import com.example.quotes.exception.ExternalApiException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,13 +46,59 @@ public class GroqAiClient {
             throw new ExternalApiException("Groq API key is not configured. Set groq.api.key or GROQ_API_KEY.");
         }
 
+        List<Map<String, Object>> messages = List.of(
+                Map.of(
+                        "role",
+                        "system",
+                        "content",
+                        "Explain quotes in clear, simple language in 3-5 sentences. Include one real-life example and one lesson or moral."
+                ),
+                Map.of("role", "user", "content", buildPrompt(quote))
+        );
+
+        return callGroq(messages);
+    }
+
+    public String generateChatResponse(Quote quote, String question, List<ChatMessage> history) {
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            throw new ExternalApiException("Groq API key is not configured. Set groq.api.key or GROQ_API_KEY.");
+        }
+
+        List<Map<String, Object>> messages = new ArrayList<>();
+        messages.add(Map.of(
+                "role",
+                "system",
+                "content",
+                "You are a helpful coach. Answer questions about the quote with practical guidance. Include at least one real-life example or actionable takeaway. Keep responses concise."
+        ));
+        messages.add(Map.of("role", "user", "content", buildQuoteContext(quote)));
+
+        if (history != null) {
+            for (ChatMessage message : history) {
+                if (message == null || message.getRole() == null || message.getContent() == null) {
+                    continue;
+                }
+                String role = message.getRole().trim().toLowerCase();
+                if (!role.equals("user") && !role.equals("assistant")) {
+                    continue;
+                }
+                String content = message.getContent().trim();
+                if (content.isEmpty()) {
+                    continue;
+                }
+                messages.add(Map.of("role", role, "content", content));
+            }
+        }
+
+        messages.add(Map.of("role", "user", "content", question.trim()));
+        return callGroq(messages);
+    }
+
+    private String callGroq(List<Map<String, Object>> messages) {
         Map<String, Object> payload = new HashMap<>();
         payload.put("model", model);
         payload.put("temperature", 0.7);
-        payload.put("messages", List.of(
-                Map.of("role", "system", "content", "Explain quotes in clear, simple language in 2-4 sentences."),
-                Map.of("role", "user", "content", buildPrompt(quote))
-        ));
+        payload.put("messages", messages);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -78,7 +126,7 @@ public class GroqAiClient {
             return content.asText().trim();
         } catch (RestClientException e) {
             logger.error("Error calling Groq API: {}", e.getMessage());
-            throw new ExternalApiException("Failed to generate explanation: " + e.getMessage());
+            throw new ExternalApiException("Failed to generate AI response: " + e.getMessage());
         }
     }
 
@@ -87,5 +135,11 @@ public class GroqAiClient {
                 ? "" : " — " + quote.getAuthor().trim();
         return "Explain this quote:\n\"" + quote.getText() + "\"" + authorPart;
     }
-}
 
+    private String buildQuoteContext(Quote quote) {
+        String authorPart = quote.getAuthor() == null || quote.getAuthor().trim().isEmpty()
+                ? "" : "Author: " + quote.getAuthor().trim() + "\n";
+        return "Quote:\n\"" + quote.getText() + "\"\n" + authorPart +
+                "Answer the user\'s question about the quote.";
+    }
+}
