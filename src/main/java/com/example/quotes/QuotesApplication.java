@@ -4,15 +4,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-
 @SpringBootApplication
+@EnableScheduling
 public class QuotesApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(QuotesApplication.class, args);
 	}
@@ -21,7 +20,6 @@ public class QuotesApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
 
 	@Bean
 	public CommandLineRunner testConnection(DataSource dataSource) {
@@ -32,10 +30,9 @@ public class QuotesApplication {
 				System.out.println("URL: " + conn.getMetaData().getURL());
 				System.out.println("User: " + conn.getMetaData().getUserName());
 			} catch (Exception e) {
-				System.out.println("❌ DATABASE CONNECTION FAILED!");
+				System.out.println("DATABASE CONNECTION FAILED!");
 				e.printStackTrace();
 			}
 		};
 	}
 }
-
