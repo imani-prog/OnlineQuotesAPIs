@@ -34,7 +34,7 @@ public class GroqAiClient {
     public GroqAiClient(RestTemplate restTemplate,
                         @Value("${groq.api.key:}") String apiKey,
                         @Value("${groq.api.url:https://api.groq.com/openai/v1/chat/completions}") String apiUrl,
-                        @Value("${groq.api.model:llama-3.1-8b-instant}") String model) {
+                        @Value("${groq.api.model:openai/gpt-oss-20b}") String model) {
         this.restTemplate = restTemplate;
         this.apiKey = apiKey;
         this.apiUrl = apiUrl;
