@@ -44,6 +44,7 @@ credentials.properties
 
 # Environment variables
 .env
+!.env.example
 
 # Database files (if using H2 for testing)
 *.db

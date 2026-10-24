@@ -26,7 +26,7 @@ services:
           name: quotes-postgres
           property: connectionString
       - key: DB_USERNAME
-        value: quoteuser
+        value: ${DB_USERNAME}
       - key: DB_PASSWORD
         generateValue: true
       - key: DDL_AUTO
@@ -40,4 +40,4 @@ services:
       - key: DB_MIN_IDLE
         value: 5
       - key: GROQ_API_KEY
-        value: set-in-render-dashboard
+        value: ${GROQ_API_KEY}

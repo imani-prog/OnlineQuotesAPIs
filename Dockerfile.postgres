@@ -2,9 +2,9 @@
 FROM postgres:16-alpine
 
 # Set environment variables
-ENV POSTGRES_DB=OnlineQuotes
-ENV POSTGRES_USER=quoteuser
-ENV POSTGRES_PASSWORD=quotepass123
+ENV POSTGRES_DB=${POSTGRES_DB:-OnlineQuotes}
+ENV POSTGRES_USER=${POSTGRES_USER:-quoteuser}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
 
 # Copy initialization script
 COPY database-setup.sql /docker-entrypoint-initdb.d/
@@ -14,4 +14,3 @@ EXPOSE 5432
 
 # Use default postgres entrypoint
 CMD ["postgres"]
-

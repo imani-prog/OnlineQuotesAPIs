@@ -5,9 +5,9 @@ services:
     container_name: quotes-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: OnlineQuotes
-      POSTGRES_USER: quoteuser
-      POSTGRES_PASSWORD: quotepass123
+      POSTGRES_DB: ${POSTGRES_DB:-OnlineQuotes}
+      POSTGRES_USER: ${POSTGRES_USER:-quoteuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
     ports:
       - "5433:5432"
     volumes:
@@ -16,7 +16,7 @@ services:
     networks:
       - quotes-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U quoteuser -d OnlineQuotes"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-quoteuser} -d ${POSTGRES_DB:-OnlineQuotes}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,13 +31,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/OnlineQuotes
-      SPRING_DATASOURCE_USERNAME: quoteuser
-      SPRING_DATASOURCE_PASSWORD: quotepass123
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
-      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/OnlineQuotes}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-quoteuser}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-changeme}
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:-org.postgresql.Driver}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO:-update}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-true}
+      SERVER_PORT: ${SERVER_PORT:-8080}
       GROQ_API_KEY: ${GROQ_API_KEY}
     depends_on:
       postgres:
