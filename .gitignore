@@ -36,7 +36,6 @@ build/
 # Sensitive configuration files with passwords
 # IMPORTANT: Never commit actual passwords!
 # Use application.properties.template as reference
-src/main/resources/application.properties
 
 # Other sensitive files
 *.secret
