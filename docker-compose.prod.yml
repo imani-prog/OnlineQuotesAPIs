@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    image: quotes-api
+    container_name: quotes-api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -Xss512k -XX:+UseSerialGC -XX:MaxMetaspaceSize=128m -XX:TieredStopAtLevel=1 -XX:CICompilerCount=1"
+    mem_limit: 384m
+    ports:
+      - "127.0.0.1:8080:8080"
